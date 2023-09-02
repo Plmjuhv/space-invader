@@ -88,7 +88,7 @@ int main() {
 
     bool bKey[3];
 
-    int nSpeed = 12;
+    int nSpeed = 20;
     int nEnemyDirection = 1;
     bool bReverseDirection = false;
     int nTurnCounter = 0;
@@ -98,7 +98,7 @@ int main() {
 
     while (!bGameOver) {
         // Game Timing =================
-        this_thread::sleep_for(50ms);
+        this_thread::sleep_for(30ms);
         nTurnCounter++;
         nUfoCounter++;
 
@@ -108,7 +108,7 @@ int main() {
                     for (int px = nEnemyPositionRightX; px >= nEnemyPositionLeftX; px--) {
                         if (nEnemyPositionRightX < nFieldWidth - 2) {
                             pField[py * nFieldWidth + px + 1] = pField[py * nFieldWidth + px];
-                            if (rand() % 3000 == 0 && pField[py * nFieldWidth + px + 1] > 0) {
+                            if (rand() % (600 - (nLevel - 1) * 5) == 0 && pField[py * nFieldWidth + px + 1] > 0) {
                                 vEnemyShotPosition.push_back(py * nFieldWidth + px + 1);
                                 if (pProjectiles[py * nFieldWidth + px + 1] != 9) {
                                     pProjectiles[py * nFieldWidth + px + 1] = 7;
@@ -118,7 +118,7 @@ int main() {
                                 pField[py * nFieldWidth + px + 1] = 0;
                             }
                         } else {
-                            if (rand() % 3000 == 0 && pField[py * nFieldWidth + px + 1] > 0) {
+                            if (rand() % (600 - (nLevel - 1) * 5) == 0 && pField[py * nFieldWidth + px + 1] > 0) {
                                 vEnemyShotPosition.push_back(py * nFieldWidth + px + 1);
                                 if (pProjectiles[py * nFieldWidth + px + 1] != 9) {
                                     pProjectiles[py * nFieldWidth + px + 1] = 7;
@@ -139,7 +139,7 @@ int main() {
                     for (int px = nEnemyPositionLeftX; px <= nEnemyPositionRightX; px++)
                         if (nEnemyPositionLeftX > 1) {
                             pField[py * nFieldWidth + px - 1] = pField[py * nFieldWidth + px];
-                            if (rand() % 3000 == 0 && pField[py * nFieldWidth + px + 1] > 0) {
+                            if (rand() % (600 - (nLevel - 1) * 5) == 0 && pField[py * nFieldWidth + px + 1] > 0) {
                                 vEnemyShotPosition.push_back(py * nFieldWidth + px + 1);
                                 if (pProjectiles[py * nFieldWidth + px + 1] != 9) {
                                     pProjectiles[py * nFieldWidth + px + 1] = 7;
@@ -149,7 +149,7 @@ int main() {
                                 pField[py * nFieldWidth + px - 1] = 0;
                             }
                         } else {
-                            if (rand() % 3000 == 0 && pField[py * nFieldWidth + px + 1] > 0) {
+                            if (rand() % (600 - (nLevel - 1) * 5) == 0 && pField[py * nFieldWidth + px + 1] > 0) {
                                 vEnemyShotPosition.push_back(py * nFieldWidth + px + 1);
                                 if (pProjectiles[py * nFieldWidth + px + 1] != 9) {
                                     pProjectiles[py * nFieldWidth + px + 1] = 7;
@@ -212,7 +212,7 @@ int main() {
             if (bReverseDirection) {
                 nEnemyDirection = (nEnemyDirection == -1) ? 1 : -1;
                 nEnemyPositionY++;
-                nSpeed -= (nSpeed >= 4) ? 1 : 0;
+                nSpeed -= (nSpeed >= 3) ? 1 : 0;
                 bReverseDirection = false;
             }
 
@@ -237,7 +237,7 @@ int main() {
                         }
                     }
                 }
-                nSpeed = (nSpeed > 10) ? 12 : nSpeed + 2;
+                nSpeed = (nSpeed >= 20 - nLevel) ? (((20 - nLevel) >= 3) ? 20 - nLevel : 3) : nSpeed + 1;
                 nEnemyPositionY = 1;
                 nEnemyPositionLeftX = 24;
                 nEnemyPositionRightX = 76;
@@ -245,7 +245,7 @@ int main() {
                 nEnemyDirection = 1;
                 bReverseDirection = false;
                 nTurnCounter = 0;
-                nUfoCounter = 0;
+                nUfoCounter = 1;
                 nUfoSpawn = 0;
                 nUfoDirection = 0;
                 nUfoPosition = -1;
@@ -375,7 +375,7 @@ int main() {
             }
         }
 
-        if (nUfoCounter % (150 - nUfoSpawn) == 0 && nUfoPosition == -1) {
+        if (nUfoCounter % (200 - nUfoSpawn) == 0 && nUfoPosition == -1) {
             nUfoPosition = (rand() % 2 == 0) ? 1 : nFieldWidth - 6;
             nUfoDirection = (nUfoPosition == 1) ? 1 : -1;
 
